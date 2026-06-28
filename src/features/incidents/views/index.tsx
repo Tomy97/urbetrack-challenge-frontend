@@ -1,35 +1,30 @@
 import { Route } from '@/routes/incidents';
 import { useMemo } from 'react';
 import { IncidentDetailPanel } from '@/features/incidents/components/IncidentDetailPanel';
-import { IncidentKanban } from '@/features/incidents/components/IncidentKanban';
-import { IncidentTable } from '@/features/incidents/components/IncidentTable';
 import { Button } from '@/shared/components/ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/components/ui/select';
 import { useIncidents } from '@/shared/hooks/useIncidents';
 import { useZoneLookup } from '@/shared/hooks/useZoneLookup';
 import { useZoneFilterStore } from '@/shared/store/zone-filter.store';
 import { filterByZone } from '@/shared/lib/filters';
 import { cn } from '@/shared/lib/utils';
 import type { IncidentSearch } from '@/features/incidents/schemas/incident-search.schema';
-import { INCIDENT_TYPE } from '@/shared/constants/domain';
 import {
   FILTER_ALL,
   INCIDENT_VIEW,
   INCIDENT_VIEW_VALUES,
-  isFilterAll,
 } from '@/shared/constants/filters';
+import { IncidentTypeView } from '../components/IncidentTypeView';
+import { IncidentTypeSelect } from '../components/select/IncidentTypeSelect';
 
 const routeApi = Route;
 
 export const IncidentsViews = () => {
   const navigate = routeApi.useNavigate();
-  const { view = INCIDENT_VIEW.KANBAN, type, incidentId } = routeApi.useSearch();
+  const {
+    view = INCIDENT_VIEW.KANBAN,
+    type,
+    incidentId,
+  } = routeApi.useSearch();
   const zoneId = useZoneFilterStore((s) => s.zoneId);
   const { getZoneName } = useZoneLookup();
 
@@ -96,55 +91,25 @@ export const IncidentsViews = () => {
             ))}
           </div>
         </div>
-
-        <Select
-          value={type ?? FILTER_ALL}
-          onValueChange={(value) =>
-            setSearch({
-              type: isFilterAll(value)
-                ? undefined
-                : (value as IncidentSearch['type']),
-            })
-          }
-        >
-          <SelectTrigger className="bg-card h-9 w-[200px]">
-            <SelectValue placeholder="Todos los tipos" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value={FILTER_ALL}>Todos los tipos</SelectItem>
-            <SelectItem value={INCIDENT_TYPE.OVERFLOW}>Desborde</SelectItem>
-            <SelectItem value={INCIDENT_TYPE.DAMAGE}>Daño</SelectItem>
-            <SelectItem value={INCIDENT_TYPE.LITTERING}>Basura</SelectItem>
-            <SelectItem value={INCIDENT_TYPE.OTHER}>Otro</SelectItem>
-          </SelectContent>
-        </Select>
-
-        {view === INCIDENT_VIEW.KANBAN ? (
-          <IncidentKanban
-            incidents={incidents}
-            zoneId={zoneId}
-            selectedId={incidentId}
-            getZoneName={getZoneName}
-            onSelect={(incident) => setSearch({ incidentId: incident.id })}
-          />
-        ) : (
-          <IncidentTable
-            incidents={incidents}
-            zoneId={zoneId}
-            selectedId={incidentId}
-            getZoneName={getZoneName}
-            onSelect={(incident) => setSearch({ incidentId: incident.id })}
-          />
-        )}
+        <IncidentTypeSelect
+          type={type ?? FILTER_ALL}
+          onChange={(value) => setSearch({ type: value })}
+        />
+        <IncidentTypeView
+          typeView={view}
+          incidents={incidents}
+          zoneId={zoneId}
+          incidentId={incidentId}
+          getZoneName={getZoneName}
+          onSelect={(incident) => setSearch({ incidentId: incident.id })}
+        />
       </div>
 
-      {selectedIncident && (
-        <IncidentDetailPanel
-          incident={selectedIncident}
-          zoneName={getZoneName(selectedIncident.zoneId)}
-          onClose={() => setSearch({ incidentId: undefined })}
-        />
-      )}
+      <IncidentDetailPanel
+        incident={selectedIncident}
+        zoneName={selectedIncident ? getZoneName(selectedIncident.zoneId) : ''}
+        onClose={() => setSearch({ incidentId: undefined })}
+      />
     </div>
   );
 };
