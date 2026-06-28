@@ -13,8 +13,8 @@ const nav = [
   { to: NAME_ROUTE.DASHBOARD, label: 'Dashboard', icon: LayoutDashboard },
   { to: NAME_ROUTE.MAP, label: 'Mapa Operativo', icon: Map },
   { to: NAME_ROUTE.INCIDENT, label: 'Incidentes', icon: AlertTriangle },
+  { to: NAME_ROUTE.ASSETS, label: 'Mobiliario urbano', icon: Boxes },
   { to: NAME_ROUTE.FLEET, label: 'Flota', icon: Truck },
-  { to: NAME_ROUTE.ASSETS, label: 'Mobiliario Urbano', icon: Boxes },
 ] as const;
 
 export const NavComponent = () => {
