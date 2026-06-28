@@ -13,8 +13,8 @@ import {
 import type { VehicleStatus, VehicleType } from '@/shared/types/vehicle';
 import type { Zone } from '@/shared/types/zone';
 
-type VehicleStatusFilter = VehicleStatus | typeof FILTER_ALL;
-type VehicleTypeFilter = VehicleType | typeof FILTER_ALL;
+export type VehicleStatusFilter = VehicleStatus | typeof FILTER_ALL;
+export type VehicleTypeFilter = VehicleType | typeof FILTER_ALL;
 
 export const useFleet = () => {
   const zoneId = useZoneFilterStore((s) => s.zoneId);
