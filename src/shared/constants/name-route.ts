@@ -3,5 +3,5 @@ export const NAME_ROUTE = {
   MAP: '/map',
   INCIDENT: '/incidents',
   FLEET: '/fleet',
-  ASSETS: '/assets'
+  ASSETS: '/asset'
 } as const
