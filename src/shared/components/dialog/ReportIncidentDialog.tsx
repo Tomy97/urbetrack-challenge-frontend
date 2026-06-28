@@ -11,6 +11,7 @@ import {
 
 import { CreateIncidentForm } from '../form/CreateIncidentForm';
 import { useReportIncidentDialog } from '@/shared/hooks/useReportIncidentDialog';
+import { INCIDENT_STATUS } from '@/shared/constants/domain';
 
 export const ReportIncidentDialog = () => {
   const dialog = useReportIncidentDialog();
@@ -30,7 +31,7 @@ export const ReportIncidentDialog = () => {
           <DialogTitle>Reportar incidente</DialogTitle>
           <DialogDescription>
             El estado inicial siempre es{' '}
-            <span className="font-mono">REPORTED</span>.
+            <span className="font-mono">{INCIDENT_STATUS.REPORTED}</span>.
           </DialogDescription>
         </DialogHeader>
         <CreateIncidentForm {...dialog} />

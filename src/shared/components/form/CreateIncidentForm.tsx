@@ -14,6 +14,7 @@ import { DialogFooter } from '../ui/dialog';
 import { Button } from '../ui/button';
 import { Lock, MapPin } from 'lucide-react';
 import { useReportIncidentDialog } from '@/shared/hooks/useReportIncidentDialog';
+import { INCIDENT_STATUS, INCIDENT_TYPE } from '@/shared/constants/domain';
 import type { Zone } from '@/shared/types/zone';
 
 type Props = ReturnType<typeof useReportIncidentDialog>;
@@ -38,10 +39,12 @@ export const CreateIncidentForm = ({
                 <SelectValue placeholder="Seleccioná un incidente" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="OVERFLOW">Desborde</SelectItem>
-                <SelectItem value="DAMAGE">Daño</SelectItem>
-                <SelectItem value="LITTERING">Basura en vía pública</SelectItem>
-                <SelectItem value="OTHER">Otro</SelectItem>
+                <SelectItem value={INCIDENT_TYPE.OVERFLOW}>Desborde</SelectItem>
+                <SelectItem value={INCIDENT_TYPE.DAMAGE}>Daño</SelectItem>
+                <SelectItem value={INCIDENT_TYPE.LITTERING}>
+                  Basura en vía pública
+                </SelectItem>
+                <SelectItem value={INCIDENT_TYPE.OTHER}>Otro</SelectItem>
               </SelectContent>
             </Select>
           )}
@@ -131,7 +134,7 @@ export const CreateIncidentForm = ({
           variant="outline"
           className="border-destructive/40 bg-destructive/10 text-destructive font-mono"
         >
-          REPORTED
+          {INCIDENT_STATUS.REPORTED}
         </Badge>
       </div>
 
