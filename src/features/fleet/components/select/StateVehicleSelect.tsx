@@ -16,28 +16,30 @@ interface StateVehicleSelectProp {
   value: VehicleStatusFilter;
   setValue: (value: SetStateAction<VehicleStatusFilter>) => void;
 }
+
+const VEHICLES_STATE: SelectType[] = [
+  {
+    value: FILTER_ALL,
+    label: 'Cualquier estado',
+  },
+  {
+    value: VEHICLE_STATUS.ACTIVE,
+    label: 'Activo',
+  },
+  {
+    value: VEHICLE_STATUS.MAINTENANCE,
+    label: 'Mantenimiento',
+  },
+  {
+    value: VEHICLE_STATUS.OUT_OF_SERVICE,
+    label: 'Fuera de servicio',
+  },
+];
 export const StateVehicleSelect = ({
   value,
   setValue,
 }: StateVehicleSelectProp) => {
-  const vehiclesState: SelectType[] = [
-    {
-      value: FILTER_ALL,
-      label: 'Cualquier estado',
-    },
-    {
-      value: VEHICLE_STATUS.ACTIVE,
-      label: 'Activo',
-    },
-    {
-      value: VEHICLE_STATUS.MAINTENANCE,
-      label: 'Mantenimiento',
-    },
-    {
-      value: VEHICLE_STATUS.OUT_OF_SERVICE,
-      label: 'Fuera de servicio',
-    },
-  ];
+  
   return (
     <Select
       value={value}
@@ -49,7 +51,7 @@ export const StateVehicleSelect = ({
         <SelectValue placeholder="Cualquier estado" />
       </SelectTrigger>
       <SelectContent>
-        {vehiclesState.map((v, i) => (
+        {VEHICLES_STATE.map((v, i) => (
           <SelectItem key={i} value={v.value}>
             {v.label}
           </SelectItem>

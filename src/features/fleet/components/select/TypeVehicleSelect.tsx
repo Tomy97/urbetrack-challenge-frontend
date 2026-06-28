@@ -16,28 +16,29 @@ interface TypeVehicleSelectProp {
   value: VehicleTypeFilter;
   setValue: (value: SetStateAction<VehicleTypeFilter>) => void;
 }
+
+const VEHICLES_TYPE: SelectType[] = [
+  {
+    value: FILTER_ALL,
+    label: 'Todos los tipos',
+  },
+  {
+    value: VEHICLE_TYPE.TRUCK,
+    label: 'Camión',
+  },
+  {
+    value: VEHICLE_TYPE.VAN,
+    label: 'Van',
+  },
+  {
+    value: VEHICLE_TYPE.PICKUP,
+    label: 'Pickup',
+  },
+];
 export const TypeVehicleSelect = ({
   value,
   setValue,
 }: TypeVehicleSelectProp) => {
-  const vehiclesType: SelectType[] = [
-    {
-      value: FILTER_ALL,
-      label: 'Todos los tipos',
-    },
-    {
-      value: VEHICLE_TYPE.TRUCK,
-      label: 'Camión',
-    },
-    {
-      value: VEHICLE_TYPE.VAN,
-      label: 'Van',
-    },
-    {
-      value: VEHICLE_TYPE.PICKUP,
-      label: 'Pickup',
-    },
-  ];
   return (
     <Select
       value={value}
@@ -49,7 +50,7 @@ export const TypeVehicleSelect = ({
         <SelectValue placeholder="Todos los tipos" />
       </SelectTrigger>
       <SelectContent>
-        {vehiclesType.map((vehicle, index) => (
+        {VEHICLES_TYPE.map((vehicle, index) => (
           <SelectItem key={index} value={vehicle.value}>
             {vehicle.label}
           </SelectItem>
