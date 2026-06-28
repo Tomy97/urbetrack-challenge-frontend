@@ -1,4 +1,4 @@
-# Urbetrack Ops
+#  Urbetrack Ops
 
 Aplicación SPA desarrollada como desafío técnico para URBETRACK. Permite a operadores monitorear el estado de zonas, vehículos recolectores, activos urbanos e incidentes activos a través de un dashboard centralizado, una bandeja de incidentes y un mapa operativo interactivo.
 
@@ -19,8 +19,6 @@ Aplicación SPA desarrollada como desafío técnico para URBETRACK. Permite a op
 
 ---
 
-
-
 ## Vistas Implementadas
 
 > La aplicación consume una API local. Ver sección [Instalación](#instalación-y-ejecución) para correrla.
@@ -39,11 +37,7 @@ Aplicación SPA desarrollada como desafío técnico para URBETRACK. Permite a op
 
 ---
 
-
-
 ## Stack tecnológico
-
-
 
 ### Requerido
 
@@ -54,8 +48,6 @@ Aplicación SPA desarrollada como desafío técnico para URBETRACK. Permite a op
 | TypeScript        | 5       | Tipado estático                  |
 | TanStack Query v5 | 5       | Server state, cache y mutaciones |
 | Vite              | 5       | Bundler y dev server             |
-
-
 
 
 ### Adicional implementado
@@ -77,27 +69,19 @@ Aplicación SPA desarrollada como desafío técnico para URBETRACK. Permite a op
 
 ---
 
-
-
 ## Instalación y ejecución
-
-
 
 ### Requisitos previos
 
 - Node.js >= 18
 - pnpm >= 8
 
-
-
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/[githubUser]/urbetrack-challenge-frontend.git
+git clone https://github.com/Tomy97/urbetrack-challenge-frontend.git
 cd urbetrack-challenge-frontend
 ```
-
-
 
 ### 2. Iniciar el backend
 
@@ -110,8 +94,6 @@ pnpm install
 pnpm dev
 # API disponible en http://localhost:3000
 ```
-
-
 
 ### 3. Configurar variables de entorno del frontend
 
@@ -126,8 +108,6 @@ Contenido de `.env`:
 VITE_API_URL=http://localhost:3000
 ```
 
-
-
 ### 4. Iniciar el frontend
 
 ```bash
@@ -138,8 +118,6 @@ pnpm dev
 ```
 
 ---
-
-
 
 ## Arquitectura
 
@@ -152,8 +130,6 @@ features/* → shared/*
 features/* no importan entre sí
 shared/* no importa de features/*
 ```
-
-
 
 ### Capas por responsabilidad
 
@@ -168,8 +144,6 @@ shared/* no importa de features/*
 │  DATA LAYER        services/api.ts      │  Contrato con la API, fetch puro
 └─────────────────────────────────────────┘
 ```
-
-
 
 ### SOLID aplicado a React/TypeScript
 
@@ -192,8 +166,6 @@ type IncidentCardProps = Pick<Incident, 'id' | 'type' | 'status' | 'description'
 
 ---
 
-
-
 ## Estructura de carpetas
 
 ```
@@ -202,37 +174,43 @@ src/
 │   ├── dashboard/
 │   │   ├── components/
 │   │   ├── hooks/
-│   │   └── index.tsx
+│   │   └── views/
 │   │
 │   ├── incidents/
 │   │   ├── components/
-│   │   ├── hooks/
 │   │   ├── schemas/
-│   │   └── index.tsx
+│   │   └── views/
 │   │
 │   ├── assets/
 │   │   ├── components/
-│   │   ├── hooks/
-│   │   └── index.tsx
+│   │   └── views/
 │   │
 │   ├── fleet/
 │   │   ├── components/
 │   │   ├── hooks/
-│   │   └── index.tsx
+│   │   └── views/
 │   │
 │   └── map/
 │       ├── components/
-│       ├── hooks/
-│       └── index.tsx
+│       └── views/
 │
 ├── shared/
 │   ├── components/
 │   ├── hooks/
-│   ├── services/
-│   ├── types/
+|   ├── constants/
+│   ├── api/
+│   ├── store/
+│   ├── schemas/
 │   └── lib/
 │
-└── routes/
+|-- routes/
+|   ├── __root.tsx
+|   ├── map.tsx
+|   ├── incidents.tsx
+|   ├── fleet.tsx
+|   ├── asset.tsx
+|   └── index.tsx
+└── test/
     ├── __root.tsx
     ├── map.tsx
     ├── incidents.tsx
@@ -241,11 +219,7 @@ src/
     └── index.tsx
 ```
 
-
-
 ## Planificación — User Stories
-
-
 
 ### Stories implementadas
 
@@ -263,11 +237,7 @@ src/
 | US-09 | Como supervisor quiero ver el estado de la flota organizado por zona y por vehículo                              | Flota      |
 
 
-
-
 ## Decisiones técnicas
-
-
 
 ### Filtros en URL search params — no en Zustand
 
@@ -303,8 +273,6 @@ const [zoneQuery, vehiclesQuery, incidentsQuery] = useQueries({
 })
 ```
 
-
-
 ### Zod schemas duplicados del backend
 
 Los schemas de validación del frontend son equivalentes a los del backend. En un monorepo de producción estarían en un `packages/shared` con un único source of truth. Para este proyecto la duplicación es consciente y documentada — no accidental.
@@ -333,8 +301,6 @@ Los colores de markers en el mapa unifican incidentes y assets en una sola escal
 Esto reduce la carga cognitiva del operador al pasar de una capa a otra.
 
 ---
-
-
 
 ### TanStack Router — rutas y search params completamente tipados
 
@@ -404,11 +370,7 @@ const mutation = useMutation({
 
 ---
 
-
-
 ## Testing
-
-
 
 ### Correr los tests
 
@@ -422,8 +384,6 @@ pnpm test:watch
 # Coverage report
 pnpm test:coverage
 ```
-
-
 
 ### Configuración
 
@@ -439,8 +399,6 @@ export default defineConfig({
   },
 })
 ```
-
-
 
 ### Qué se testea y por qué
 
@@ -478,8 +436,6 @@ describe('CreateIncidentModal', () => {
 })
 ```
 
-
-
 ## Limitaciones conocidas de la API
 
 Estas limitaciones son del backend provisto, no del frontend. Se documentan y se comunican en la UI donde corresponde.
@@ -494,8 +450,6 @@ Estas limitaciones son del backend provisto, no del frontend. Se documentan y se
 
 
 ---
-
-
 
 ## Convención de commits
 

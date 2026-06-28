@@ -12,7 +12,6 @@ import { Link } from '@tanstack/react-router';
 import type { Incident } from '@/shared/types/incident';
 import type { UrbanAsset } from '@/shared/types/asset';
 import {
-  getAssetMarkerColor,
   getIncidentMarkerColor,
   StatusBadge,
 } from '@/shared/components/StatusBadge';
@@ -22,6 +21,7 @@ import {
 } from '@/shared/lib/labels';
 import { NAME_ROUTE } from '@/shared/constants/name-route';
 import { MAP_LAYER, type MapLayer } from '@/shared/constants/filters';
+import { AssetMarkerCluster } from '@/shared/components/map/AssetMarkerCluster';
 
 const DEFAULT_CENTER: LatLngExpression = [-34.6037, -58.3816];
 
@@ -145,19 +145,12 @@ export function OperationalMap({
           </CircleMarker>
         ))}
 
-        {visibleAssets.map((asset) => (
-          <CircleMarker
-            key={`asset-${asset.id}`}
-            center={[asset.lat, asset.lng]}
-            radius={5}
-            pathOptions={{
-              color: getAssetMarkerColor(asset.status),
-              fillColor: getAssetMarkerColor(asset.status),
-              fillOpacity: 0.75,
-              weight: 1,
-            }}
+        {visibleAssets.length > 0 && (
+          <AssetMarkerCluster
+            assets={visibleAssets}
+            getZoneName={getZoneName}
           />
-        ))}
+        )}
       </MapContainer>
 
       {showLegend && (
@@ -182,7 +175,8 @@ export function OperationalMap({
             </li>
           </ul>
           <p className="text-muted-foreground mt-2">
-            {visibleIncidents.length} incidentes visibles
+            {visibleIncidents.length} incidentes · {visibleAssets.length}{' '}
+            assets visibles
           </p>
         </div>
       )}

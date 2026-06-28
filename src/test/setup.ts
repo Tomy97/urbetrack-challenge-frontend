@@ -6,8 +6,10 @@ afterEach(() => {
   cleanup();
 });
 
+const win = window as Window & typeof globalThis
+
 if (typeof window !== "undefined" && !window.matchMedia) {
-  window.matchMedia = (query: string) => ({
+  win.matchMedia = (query: string) => ({
     matches: false,
     media: query,
     onchange: null,
@@ -24,7 +26,7 @@ if (typeof window !== "undefined") {
     Element.prototype.scrollIntoView ?? (() => {});
 
   if (!("ResizeObserver" in window)) {
-    window.ResizeObserver = class {
+    win.ResizeObserver = class {
       observe() {}
       unobserve() {}
       disconnect() {}
@@ -33,7 +35,7 @@ if (typeof window !== "undefined") {
 
   if (!("PointerEvent" in window)) {
     class PointerEventStub extends MouseEvent {}
-    window.PointerEvent = PointerEventStub as unknown as typeof PointerEvent;
+    win.PointerEvent = PointerEventStub as unknown as typeof PointerEvent;
   }
 
   Element.prototype.hasPointerCapture =
