@@ -22,7 +22,7 @@ export const useReportIncidentDialog = () => {
   } = useForm<CreateIncidentInput>({
     resolver: zodResolver(createIncidentSchema),
     defaultValues: {
-      type: '',
+      type: 'OVERFLOW',
       zoneId: '',
       lat: -34.5755,
       lng: -58.4338,
