@@ -232,12 +232,14 @@ src/
 │   ├── types/
 │   └── lib/
 │
-└── app/
-    ├── router.tsx
-    └── providers.tsx
+└── routes/
+    ├── __root.tsx
+    ├── map.tsx
+    ├── incidents.tsx
+    ├── fleet.tsx
+    ├── asset.tsx
+    └── index.tsx
 ```
-
----
 
 
 
