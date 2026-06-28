@@ -1,7 +1,8 @@
 import { z } from 'zod';
+import { INCIDENT_TYPE_VALUES } from '@/shared/constants/domain';
 
 export const createIncidentSchema = z.object({
-  type: z.enum(['OVERFLOW', 'DAMAGE', 'LITTERING', 'OTHER']),
+  type: z.enum(INCIDENT_TYPE_VALUES),
   description: z
     .string()
     .min(1, 'La descripción es obligatoria.')
