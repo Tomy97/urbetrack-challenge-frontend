@@ -1,25 +1,14 @@
 import { useMemo, useState } from 'react';
 import { Button } from '@/shared/components/ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/components/ui/select';
-import { StatusBadge } from '@/shared/components/StatusBadge';
 import { useAssets } from '@/shared/hooks/useAssets';
-import { useZoneLookup } from '@/shared/hooks/useZoneLookup';
 import { useZoneFilterStore } from '@/shared/store/zone-filter.store';
 import { filterByZone } from '@/shared/lib/filters';
-import { ASSET_STATUS_LABELS, ASSET_TYPE_LABELS } from '@/shared/lib/labels';
 import { formatNumber } from '@/shared/lib/format';
-import { ASSET_STATUS, ASSET_TYPE } from '@/shared/constants/domain';
-import {
-  FILTER_ALL,
-  isFilterAll,
-} from '@/shared/constants/filters';
+import { FILTER_ALL, isFilterAll } from '@/shared/constants/filters';
 import type { AssetStatus, AssetType } from '@/shared/types/asset';
+import { StatusAssetSelect } from '../components/selects/StatusAssetSelect';
+import { TypeAssetSelect } from '../components/selects/TypeAssetSelect';
+import { AssetsCardTable } from '../components/cards/AssetsCardTable';
 
 const PAGE_SIZE = 50;
 
@@ -28,10 +17,9 @@ type AssetTypeFilter = AssetType | typeof FILTER_ALL;
 
 export const AssetsView = () => {
   const zoneId = useZoneFilterStore((s) => s.zoneId);
-  const { getZoneName } = useZoneLookup();
-  const [statusFilter, setStatusFilter] = useState<AssetStatusFilter>(
-    FILTER_ALL,
-  );
+
+  const [statusFilter, setStatusFilter] =
+    useState<AssetStatusFilter>(FILTER_ALL);
   const [typeFilter, setTypeFilter] = useState<AssetTypeFilter>(FILTER_ALL);
   const [page, setPage] = useState(1);
 
@@ -75,79 +63,24 @@ export const AssetsView = () => {
       </div>
 
       <div className="flex flex-wrap items-center gap-3">
-        <Select
+        <StatusAssetSelect
           value={statusFilter}
-          onValueChange={(value) => {
-            setStatusFilter(value as AssetStatusFilter);
+          onChange={(value) => {
+            setStatusFilter(value);
             setPage(1);
           }}
-        >
-          <SelectTrigger className="bg-card h-9 w-[180px]">
-            <SelectValue placeholder="Todos los estados" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value={FILTER_ALL}>Todos los estados</SelectItem>
-            <SelectItem value={ASSET_STATUS.OK}>OK</SelectItem>
-            <SelectItem value={ASSET_STATUS.FULL}>Lleno</SelectItem>
-            <SelectItem value={ASSET_STATUS.DAMAGED}>Dañado</SelectItem>
-            <SelectItem value={ASSET_STATUS.OUT_OF_SERVICE}>
-              Fuera de servicio
-            </SelectItem>
-          </SelectContent>
-        </Select>
+        />
 
-        <Select
+        <TypeAssetSelect
           value={typeFilter}
-          onValueChange={(value) => {
-            setTypeFilter(value as AssetTypeFilter);
+          onChange={(value) => {
+            setTypeFilter(value);
             setPage(1);
           }}
-        >
-          <SelectTrigger className="bg-card h-9 w-[180px]">
-            <SelectValue placeholder="Todos los tipos" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value={FILTER_ALL}>Todos los tipos</SelectItem>
-            <SelectItem value={ASSET_TYPE.CONTAINER}>Contenedor</SelectItem>
-            <SelectItem value={ASSET_TYPE.BIN}>Tacho</SelectItem>
-            <SelectItem value={ASSET_TYPE.BENCH}>Banco</SelectItem>
-          </SelectContent>
-        </Select>
+        />
       </div>
 
-      <div className="border-border overflow-hidden rounded-xl border">
-        <table className="w-full text-sm">
-          <thead className="bg-muted/40 text-muted-foreground text-left text-xs uppercase">
-            <tr>
-              <th className="px-4 py-3 font-medium">ID</th>
-              <th className="px-4 py-3 font-medium">Tipo</th>
-              <th className="px-4 py-3 font-medium">Estado</th>
-              <th className="px-4 py-3 font-medium">Dirección</th>
-              <th className="px-4 py-3 font-medium">Zona</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pageItems.map((asset) => (
-              <tr
-                key={asset.id}
-                className="border-border hover:bg-muted/20 border-t transition-colors"
-              >
-                <td className="px-4 py-3 font-mono">#{asset.id}</td>
-                <td className="px-4 py-3">{ASSET_TYPE_LABELS[asset.type]}</td>
-                <td className="px-4 py-3">
-                  <StatusBadge
-                    kind="asset"
-                    status={asset.status}
-                    label={ASSET_STATUS_LABELS[asset.status]}
-                  />
-                </td>
-                <td className="px-4 py-3">{asset.address}</td>
-                <td className="px-4 py-3">{getZoneName(asset.zoneId)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <AssetsCardTable items={pageItems} />
 
       <div className="flex items-center justify-between gap-3">
         <p className="text-muted-foreground text-xs">

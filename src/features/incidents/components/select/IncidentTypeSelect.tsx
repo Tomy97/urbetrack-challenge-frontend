@@ -15,32 +15,33 @@ interface IncidentTypeSelectProp {
   onChange: (value: IncidentSearch['type']) => void;
 }
 
+const INCIDENTS_TYPE: SelectType[] = [
+  {
+    value: FILTER_ALL,
+    label: 'Todos los tipos',
+  },
+  {
+    value: INCIDENT_TYPE.OVERFLOW,
+    label: 'Desborde',
+  },
+  {
+    value: INCIDENT_TYPE.DAMAGE,
+    label: 'Daño',
+  },
+  {
+    value: INCIDENT_TYPE.LITTERING,
+    label: 'Basura',
+  },
+  {
+    value: INCIDENT_TYPE.OTHER,
+    label: 'Otro',
+  },
+];
+
 export const IncidentTypeSelect = ({
   type,
   onChange,
 }: IncidentTypeSelectProp) => {
-  const incidentsTypes: SelectType[] = [
-    {
-      value: FILTER_ALL,
-      label: 'Todos los tipos',
-    },
-    {
-      value: INCIDENT_TYPE.OVERFLOW,
-      label: 'Desborde',
-    },
-    {
-      value: INCIDENT_TYPE.DAMAGE,
-      label: 'Daño',
-    },
-    {
-      value: INCIDENT_TYPE.LITTERING,
-      label: 'Basura',
-    },
-    {
-      value: INCIDENT_TYPE.OTHER,
-      label: 'Otro',
-    },
-  ];
   return (
     <Select
       value={type ?? FILTER_ALL}
@@ -54,7 +55,7 @@ export const IncidentTypeSelect = ({
         <SelectValue placeholder="Todos los tipos" />
       </SelectTrigger>
       <SelectContent>
-        {incidentsTypes.map((incident, index) => (
+        {INCIDENTS_TYPE.map((incident, index) => (
           <SelectItem key={index} value={incident.value}>
             {incident.label}
           </SelectItem>
