@@ -1,4 +1,10 @@
-import { AlertTriangle, LayoutDashboard, Map, Truck } from 'lucide-react';
+import {
+  AlertTriangle,
+  LayoutDashboard,
+  Map,
+  Boxes,
+  Truck,
+} from 'lucide-react';
 import { Link, useRouterState } from '@tanstack/react-router';
 import { cn } from '../lib/utils';
 import { NAME_ROUTE } from '@/shared/constants/name-route';
@@ -8,6 +14,7 @@ const nav = [
   { to: NAME_ROUTE.MAP, label: 'Mapa Operativo', icon: Map },
   { to: NAME_ROUTE.INCIDENT, label: 'Incidentes', icon: AlertTriangle },
   { to: NAME_ROUTE.FLEET, label: 'Flota', icon: Truck },
+  { to: NAME_ROUTE.ASSETS, label: 'Mobiliario Urbano', icon: Boxes },
 ] as const;
 
 export const NavComponent = () => {
